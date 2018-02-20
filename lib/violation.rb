@@ -5,6 +5,7 @@ require 'time'
 class Violation
   def initialize
     @table = {}
+    @headers = ["Violation Type", "Count", "Earliest Violation", "Latest Violation"]
   end
 
   def merge_violations
@@ -19,6 +20,17 @@ class Violation
       @table[type][:earliest_violation] = date if date > @table[type][:earliest_violation]
       @table[type][:latest_violation] = date if date > @table[type][:latest_violation]
     end
-    puts @table
+    @table
+  end
+
+  def print_table
+    puts @headers.join(" | ")
+    puts "-------------------------------------------------------------------------------------------------------"
+    merge_violations.each do |key, value|
+      row = value.values.unshift(key)
+      puts row.join(" | ")
+      puts "------------------------------------------------------------------------------------------------"
+      # require 'pry'; binding.pry
+    end
   end
 end
