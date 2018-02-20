@@ -12,7 +12,7 @@ class Violation
     CSV.foreach './data/violations.csv', headers: true, header_converters: :symbol do |row|
       type = row[:violation_type]
       date = Time.parse(row[:violation_date])
-      @table[type] = {} unless @table[type]
+      @table[type] = {} unless @table.has_key?(type)
       @table[type][:count] = 0 unless @table[type][:count]
       @table[type][:earliest_violation] = date unless @table[type][:earliest_violation]
       @table[type][:latest_violation] = date unless @table[type][:latest_violation]
@@ -30,7 +30,6 @@ class Violation
       row = value.values.unshift(key)
       puts row.join(" | ")
       puts "------------------------------------------------------------------------------------------------"
-      # require 'pry'; binding.pry
     end
   end
 end
